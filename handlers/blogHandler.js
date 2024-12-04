@@ -21,13 +21,13 @@ const addBlog = async (req, res) => {
         }
 
         // Validate file upload
-        if (!req.file) {
-            return res.status(400).json({ error: "Image is required" });
-        }
+       // if (!req.file) {
+        //    return res.status(400).json({ error: "Image is required" });
+        //}
 
         // Get the image path and create blog entry
-        const imagePath = `/uploads/${req.file.filename}`;
-        const host = `${req.protocol}://${req.get('host')}`;
+        // const imagePath = `/uploads/${req.file.filename}`;
+        // const host = `${req.protocol}://${req.get('host')}`;
         
         const newBlog = new Blog({
             title,
