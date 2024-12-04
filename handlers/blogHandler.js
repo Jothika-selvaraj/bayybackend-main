@@ -9,19 +9,6 @@ if (!fs.existsSync('uploads')) {
 }
 
 
-// // Set up multer for image uploads
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, 'uploads/');
-//     },
-//     filename: (req, file, cb) => {
-//         const uniqueName = `${Date.now()}-${file.originalname}`;
-//         cb(null, uniqueName);
-//     },
-// });
-
-// // Initialize multer middleware
-// const upload = multer({ storage });
 
 // // Add a new blog  
 const addBlog = async (req, res) => {
