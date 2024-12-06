@@ -33,8 +33,16 @@ const addBlog = async (req, res) => {
             return res.status(400).json({ error: 'Title, content, and author are required' });
         }
 
-        // Create blog object first without the image
-        const blogData = {
+        // Validate file upload
+        if (!req.file) {
+            return res.status(400).json({ error: "Image is required" });
+        }
+
+        // Get the image path and create blog entry
+        const imagePath = `/uploads/${req.file.filename}`;
+        const host = `${req.protocol}://${req.get('host')}`;
+        
+        const newBlog = new Blog({
             title,
             content,
             author,
