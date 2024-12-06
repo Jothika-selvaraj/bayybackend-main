@@ -16,11 +16,6 @@ const MONGO_URI = process.env.MONGO_URI;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-//app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// app.post('http://localhost:3000/api/uploads',(req,res)=>{
-//     res.send('upload sucess');
-// });
 
 // Database Connection
 mongoose
@@ -31,7 +26,7 @@ mongoose
 // Routes
 
 app.use('/api/blogs', blogRoutes);
-app.use('/api/course', courseRoutes);
+app.use('/api/courses', courseRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
