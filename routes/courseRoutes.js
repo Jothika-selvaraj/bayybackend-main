@@ -1,23 +1,18 @@
 const express = require('express');
-const {
-    addCourse,
-    listCourses,
-    updateCourse,
-    deleteCourse,
+const router = express.Router();
+const { 
+    addCourse, 
+    listCourses, 
+    getCourseById, 
+    updateCourse, 
+    deleteCourse 
 } = require('../handlers/courseHandler');
 
-const router = express.Router();
-
-// Add a new blog
+// Course routes
 router.post('/', addCourse);
-
-// List all blogs
 router.get('/', listCourses);
-
-// Update a blog by ID
+router.get('/:id', getCourseById);
 router.put('/:id', updateCourse);
-
-// Delete a blog by ID
 router.delete('/:id', deleteCourse);
 
 module.exports = router;

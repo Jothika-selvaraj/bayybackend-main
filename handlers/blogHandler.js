@@ -9,42 +9,6 @@ if (!fs.existsSync('uploads')) {
 }
 
 
-
-// // Add a new blog  
-const addBlog = async (req, res) => {
-    try {
-        const { title, content, author } = req.body;
-
-        // Validate required fields
-        if (!title || !content || !author) {
-            return res.status(400).json({ error: 'Title, content, and author are required' });
-        }
-
-        // Validate file upload
-        if (!req.file) {
-            return res.status(400).json({ error: "Image is required" });
-        }
-
-        // Get the image path and create blog entry
-        const imagePath = `/uploads/${req.file.filename}`;
-        const host = `${req.protocol}://${req.get('host')}`;
-        
-        const newBlog = new Blog({
-            title,
-            content,
-            author,
-            image: `${host}${imagePath}`
-        });
-
-        const savedBlog = await newBlog.save();
-        res.status(201).json({ success: true, blog: savedBlog });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Failed to add blog' });
-    }
-};
-
-
 // Set up multer for file uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -57,6 +21,41 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
+
+// // Add a new blog  
+const addBlog = async (req, res) => {
+    try {
+        const { title, content, author } = req.body;
+
+        // Validate required fields
+        if (!title || !content || !author) {
+            return res.status(400).json({ error: 'Title, content, and author are required' });
+        }
+
+        // Create blog object first without the image
+        const blogData = {
+            title,
+            content,
+            author,
+            image: null
+        };
+
+        // Add image if it exists
+        if (req.file) {
+            const host = `${req.protocol}://${req.get('host')}`;
+            const imagePath = `/uploads/${req.file.filename}`;
+            blogData.image = `${host}${imagePath}`;
+        }
+
+        const newBlog = new Blog(blogData);
+        const savedBlog = await newBlog.save();
+        res.status(201).json({ success: true, blog: savedBlog });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to add blog' });
+    }
+};
 
 
 const getBlogById = async (req, res) => {
